@@ -157,11 +157,6 @@ contract ClankerPresaleLockedBalanceEligibilityModule is HatsEligibilityModule {
     uint256 lockedEthAmount =
       _presaleContract.presaleBuys(_presaleId, _account) - _presaleContract.presaleClaimed(_presaleId, _account);
 
-    // Convert to token amount using presale ratio
-    if (presale.ethRaised == 0) {
-      return 0;
-    }
-
     uint256 lockedTokenAmount = (presale.tokenSupply * lockedEthAmount) / presale.ethRaised;
     return lockedTokenAmount;
   }
