@@ -30,6 +30,13 @@ contract Deploy is Script {
     }
   }
 
+  /// @dev Deploy the contract (without broadcasting, for tests)
+  function deploy() public virtual returns (ClankerPresaleLockedBalanceEligibilityModule) {
+    implementation = new ClankerPresaleLockedBalanceEligibilityModule{ salt: SALT }(_version);
+    _log("");
+    return implementation;
+  }
+
   /// @dev Deploy the contract to a deterministic address via forge's create2 deployer factory.
   function run() public virtual {
     vm.startBroadcast(deployer());
@@ -42,11 +49,9 @@ contract Deploy is Script {
      *       never differs regardless of where its being compiled
      *    2. The provided salt, `SALT`
      */
-    implementation = new ClankerPresaleLockedBalanceEligibilityModule{ salt: SALT }(_version);
+    deploy();
 
     vm.stopBroadcast();
-
-    _log("");
   }
 }
 /* FORGE CLI COMMANDS

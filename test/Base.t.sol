@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
-import { Test, console2 } from "forge-std/Test.sol";
+import { Test } from "forge-std/Test.sol";
 import { ClankerPresaleLockedBalanceEligibilityModule } from "../src/ClankerPresaleLockedBalanceEligibilityModule.sol";
 import { Deploy } from "../script/Deploy.s.sol";
 import {
@@ -17,7 +17,6 @@ import {
   IClanker,
   IClankerPresaleEthToCreator
 } from "../lib/v4-contracts/src/extensions/interfaces/IClankerPresaleEthToCreator.sol";
-import { IERC20 } from "../lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract BaseTest is Test {
   ClankerPresaleLockedBalanceEligibilityModule public implementation;
@@ -63,8 +62,7 @@ contract BaseTest is Test {
 
   function _deployImplementation(Deploy _deployScript) internal returns (ClankerPresaleLockedBalanceEligibilityModule) {
     _deployScript.prepare(false, MODULE_VERSION);
-    _deployScript.run();
-    return _deployScript.implementation();
+    return _deployScript.deploy();
   }
 
   function setUp() public virtual {
