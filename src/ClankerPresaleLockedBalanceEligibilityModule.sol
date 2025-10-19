@@ -84,18 +84,7 @@ contract ClankerPresaleLockedBalanceEligibilityModule is HatsEligibilityModule {
   /**
    * @inheritdoc HatsEligibilityModule
    */
-  function getWearerStatus(
-    address _wearer,
-    uint256 /*_hatId */
-  )
-    public
-    view
-    override
-    returns (
-      bool eligible,
-      bool /* standing */
-    )
-  {
+  function getWearerStatus(address _wearer, uint256) public view override returns (bool eligible, bool) {
     // get the total balance of the wearer across ERC20 and Clanker presale locked tokens
     uint256 totalBalance =
       _getERC20Balance(_wearer)
