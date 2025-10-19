@@ -2,15 +2,15 @@
 pragma solidity ^0.8.19;
 
 import { Script, console2 } from "forge-std/Script.sol";
-import { Module } from "../src/Module.sol";
+import { ClankerPresaleLockedBalanceEligibilityModule } from "../src/ClankerPresaleLockedBalanceEligibilityModule.sol";
 
 contract Deploy is Script {
-  Module public implementation;
+  ClankerPresaleLockedBalanceEligibilityModule public implementation;
   bytes32 public SALT = bytes32(abi.encode("change this to the value of your choice"));
 
   // default values
   bool internal _verbose = true;
-  string internal _version = "0.0.1"; // increment this with each new deployment
+  string internal _version = "0.1.0"; // increment this with each new deployment
 
   /// @dev Override default values, if desired
   function prepare(bool verbose, string memory version) public {
@@ -42,32 +42,13 @@ contract Deploy is Script {
      *       never differs regardless of where its being compiled
      *    2. The provided salt, `SALT`
      */
-    implementation = new Module{ salt: SALT }(_version /* insert constructor args here */ );
+    implementation = new ClankerPresaleLockedBalanceEligibilityModule{ salt: SALT }(_version);
 
     vm.stopBroadcast();
 
     _log("");
   }
 }
-
-/// @dev Deploy pre-compiled ir-optimized bytecode to a non-deterministic address
-contract DeployPrecompiled is Deploy {
-  /// @dev Update SALT and default values in Deploy contract
-
-  function run() public override {
-    vm.startBroadcast(deployer());
-
-    bytes memory args = abi.encode( /* insert constructor args here */ );
-
-    /// @dev Load and deploy pre-compiled ir-optimized bytecode.
-    implementation = Module(deployCode("optimized-out/Module.sol/Module.json", args));
-
-    vm.stopBroadcast();
-
-    _log("Precompiled ");
-  }
-}
-
 /* FORGE CLI COMMANDS
 
 ## A. Simulate the deployment locally
@@ -78,16 +59,7 @@ forge script script/Deploy.s.sol -f mainnet --broadcast --verify
 
 ## C. Fix verification issues (replace values in curly braces with the actual values)
 forge verify-contract --chain-id 1 --num-of-optimizations 1000000 --watch --constructor-args $(cast abi-encode \
- "constructor({args})" "{arg1}" "{arg2}" "{argN}" ) \ 
+ "constructor(string)" "0.1.0" ) \
  --compiler-version v0.8.19 {deploymentAddress} \
- src/{Counter}.sol:{Counter} --etherscan-api-key $ETHERSCAN_KEY
-
-## D. To verify ir-optimized contracts on etherscan...
-  1. Run (C) with the following additional flag: `--show-standard-json-input > etherscan.json`
-  2. Patch `etherscan.json`: `"optimizer":{"enabled":true,"runs":100}` =>
-`"optimizer":{"enabled":true,"runs":100},"viaIR":true`
-  3. Upload the patched `etherscan.json` to etherscan manually
-
-  See this github issue for more: https://github.com/foundry-rs/foundry/issues/3507#issuecomment-1465382107
-
+ src/ClankerPresaleLockedBalanceEligibilityModule.sol:ClankerPresaleLockedBalanceEligibilityModule --etherscan-api-key $ETHERSCAN_KEY
 */

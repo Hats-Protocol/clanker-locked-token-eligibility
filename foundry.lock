@@ -1,0 +1,20 @@
+{
+  "lib/forge-std": {
+    "rev": "74cfb77e308dd188d2f58864aaf44963ae6b88b1"
+  },
+  "lib/hats-module": {
+    "rev": "e83bd72cb3eebdbeadabcb63e3c6f69ab61a5562"
+  },
+  "lib/openzeppelin-contracts": {
+    "tag": {
+      "name": "v5.4.0",
+      "rev": "c64a1edb67b6e3f4a15cca8909c9482ad33a02b0"
+    }
+  },
+  "lib/v4-contracts": {
+    "branch": {
+      "name": "lilyjjo--updated-presale",
+      "rev": "7bd6b6b45a7596bfd608d2479f4d79bfebefd2c7"
+    }
+  }
+}
